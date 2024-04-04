@@ -31,7 +31,7 @@ export default function Home() {
                 type="date"
               />
               <input
-                class="w-44 h-10 outline-none rounded-lg border-transparent ml-[13rem] -ml-0"
+                class="w-44 h-10 outline-none rounded-lg border-transparent ml-[13rem] ml-[1px]"
                 type="date"
               />
               
@@ -54,7 +54,7 @@ export default function Home() {
         </div>
 
         {/* Trending package------------------------------------------------------------- */}
-        <h1 class="text-[60px] ml-[35%]">Popular Trips</h1>
+        <h1 class="text-[60px] ml-[3%]">Popular Trips</h1>
          <div class="flex flex-wrap -gap-x-0 gap-y-10 mt-20 ">
         <PackageCard />
         <PackageCard />
