@@ -34,7 +34,7 @@ export default function PackageCard() {
         <p class="-mt-[100px] text-[23px] ml-60 bg-gray-300 w-[130px] h-[40px] flex pl-[10px] rounded-lg">₹22,999</p>
         </div>
       
-        <Link to="" class="bg-blue-600 rounded-lg w-24 p-[7px] absolute ml-[240px] mt-[125px] text-white">Book Now</Link>
+        <Link to="/trippackage" class="bg-blue-600 rounded-lg w-24 p-[7px] absolute ml-[240px] mt-[125px] text-white">Book Now</Link>
       </Card>
     </div>
   );

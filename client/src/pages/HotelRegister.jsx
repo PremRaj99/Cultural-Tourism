@@ -12,9 +12,10 @@ import { app } from "../firebase.js";
 
 export default function HotelRegister() {
   const [formData, setFormData] = useState({
-    cabName: "",
+    HotelName: "",
     price: "",
-    cabImage: "",
+    HotelImage: "",
+    noOfRoom: "",
     address: "", // Add address field to formData
   });
   const [error, setError] = useState(false);
@@ -75,7 +76,7 @@ export default function HotelRegister() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
           setImageFile(downloadUrl);
-          setFormData({ ...formData, placeImage: downloadUrl });
+          setFormData({ ...formData, HotelImage: downloadUrl });
         });
       }
     );
@@ -90,10 +91,11 @@ export default function HotelRegister() {
     setSubmit(null);
 
     if (
-      !formData.cabName &&
+      !formData.HotelName &&
       !formData.address &&
       !formData.price &&
-      !formData.cabImage
+      !formData.HotelImage &&
+      !formData.noOfRoom 
     ) {
       setUpdateUserError("No change made");
       return;
@@ -101,7 +103,7 @@ export default function HotelRegister() {
 
     try {
       setLoading(true);
-      const res = await fetch(`/api/cab/add/${currentUser._id}`, {
+      const res = await fetch(`/api/hotel/add/${currentUser._id}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
@@ -114,7 +116,7 @@ export default function HotelRegister() {
       if (res.ok) {
         console.log(data.message);
         setSubmit("Your cab has been registered");
-        setFormData({ placeName: "", placeImage: "", address: "", price: "" });
+        setFormData({ HotelName: "", HotelImage: "", address: "", price: "", noOfRoom: "" });
       }
     } catch (error) {
       setError(error.message);
@@ -184,38 +186,12 @@ export default function HotelRegister() {
       />
 
       <div className="flex justify-center items-center mt-32 ml-28  py-5 absolute top-3 left-[10%] translate-x-[75%]">
-        <div className="max-w-md w-full px-6 py-2 bg-white shadow-md rounded-md">
+        <div className="max-w-lg w-full px-6 py-2 bg-white shadow-md rounded-md">
           <h2 className="text-2xl text-center font-semibold mb-4">
-            Register your CAB
+            Register your HOTEL
           </h2>
           <form onSubmit={handleSubmit}>
-            <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-semibold mb-2"
-                htmlFor="cabModel"
-              >
-                Cab Model
-              </label>
-              <select
-                id="cabModel"
-                name="cabModel"
-                value={formData.cabName}
-                onChange={(e) => {
-                  setFormData({ ...formData, cabName: e.target.value });
-                }}
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                required
-              >
-                <option value="" disabled>
-                  Select Cab Model
-                </option>
-                <option value="Mini">Mini</option>
-                <option value="Prime Sedan">Prime Sedan</option>
-                <option value="Prime SUV">Prime SUV</option>
-                <option value="Other">Other</option>
-              </select>
-            </div>
-            {formData.cabName === "Other" && (
+            
               <div className="mb-4">
                 <label
                   className="block text-gray-700 text-sm font-semibold mb-2"
@@ -227,15 +203,14 @@ export default function HotelRegister() {
                   type="text"
                   id="otherCabModel"
                   name="otherCabModel"
-                  value={formData.otherCabName}
+                  value={formData.HotelName}
                   onChange={(e) => {
-                    setFormData({ ...formData, cabName: e.target.value });
+                    setFormData({ ...formData, HotelName: e.target.value });
                   }}
                   className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                   required
                 />
               </div>
-            )}
             <div className="mb-4 relative">
               <label
                 className="block text-gray-700 text-sm font-semibold mb-2"
@@ -253,6 +228,28 @@ export default function HotelRegister() {
                   value={formData.price}
                   onChange={(e) => {
                     setFormData({ ...formData, price: e.target.value });
+                  }}
+                  className="appearance-none w-full focus:outline-none"
+                  required
+                />
+              </div>
+            </div>
+            <div className="mb-4 relative">
+              <label
+                className="block text-gray-700 text-sm font-semibold mb-2"
+                htmlFor="price"
+              >
+                No of Rooms in Your Hotel
+              </label>
+              <div className="flex items-center border rounded py-2 px-3 text-gray-700 focus-within:shadow-outline">
+                <input
+                  type="number"
+                  id="price"
+                  name="price"
+                  placeholder="Enter No of Room"
+                  value={formData.noOfRoom}
+                  onChange={(e) => {
+                    setFormData({ ...formData, noOfRoom: e.target.value });
                   }}
                   className="appearance-none w-full focus:outline-none"
                   required
@@ -292,7 +289,7 @@ export default function HotelRegister() {
                 className="block text-gray-700 text-sm font-semibold mb-2"
                 htmlFor="cabImage"
               >
-                Upload Cab Image
+                Upload Hotel Image
               </label>
               <input
                 type="file"

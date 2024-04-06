@@ -13,7 +13,7 @@ export const addHotel = async (req, res, next) => {
       return next(errorHandler(404, "User not found"));
     }
 
-    if (!user.isPartner || user.Partner === "Hotel Owner") {
+    if (!user.isPartner || user.Partner !== "Hotel Owner") {
       return next(errorHandler(403, "You are not a Hotel owner."));
     }
 

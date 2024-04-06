@@ -75,7 +75,7 @@ export default function CabRegister() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
           setImageFile(downloadUrl);
-          setFormData({ ...formData, placeImage: downloadUrl });
+          setFormData({ ...formData, cabImage: downloadUrl });
         });
       }
     );
@@ -114,7 +114,7 @@ export default function CabRegister() {
       if (res.ok) {
         console.log(data.message);
         setSubmit("Your cab has been registered");
-        setFormData({ placeName: "", placeImage: "", address: "", price: "" });
+        setFormData({ cabName: "", cabImage: "", address: "", price: "" });
       }
     } catch (error) {
       setError(error.message);
