@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Alert, RangeSlider } from "flowbite-react";
-import { useSelector} from "react-redux"
+import { Alert, RangeSlider, Spinner } from "flowbite-react";
+import { useSelector } from "react-redux";
 import {
   getDownloadURL,
   getStorage,
@@ -15,9 +15,11 @@ export default function PlaceRegister() {
     placeName: "",
     price: "",
     placeImage: "",
-    address: "" // Add address field to formData
+    address: "", // Add address field to formData
   });
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [submit, setSubmit] = useState(null);
 
   const { currentUser } = useSelector((state) => state.user);
 
@@ -73,7 +75,7 @@ export default function PlaceRegister() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadUrl) => {
           setImageFile(downloadUrl);
-          setFormData({...formData, placeImage: downloadUrl});
+          setFormData({ ...formData, placeImage: downloadUrl });
         });
       }
     );
@@ -82,43 +84,43 @@ export default function PlaceRegister() {
   const [registeredCabs, setRegisteredCabs] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    setFormData({
-      ...formData,
-      cabImage: file,
-    });
-  };
-
-  const handleSubmit = async(e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if(!formData.placeName && !formData.address && !formData.price && !formData.placeImage) {
+    setSubmit(null);
+
+    if (
+      !formData.placeName &&
+      !formData.address &&
+      !formData.price &&
+      !formData.placeImage
+    ) {
       setUpdateUserError("No change made");
       return;
     }
 
-    const res = await fetch(`/api/place/add/${currentUser._id}`, {
-      method: "POST",
-      headers: {"Content-Type": "application/json"},
-      body: JSON.stringify(formData)});
+    try {
+      setLoading(true);
+      const res = await fetch(`/api/place/add/${currentUser._id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
       const data = await res.json();
+      setLoading(false);
       if (!res.ok) {
         setError(data.message);
       }
-      if(res.ok) {
+      if (res.ok) {
         console.log(data.message);
+        setSubmit("Your place has been registered");
+        setFormData({ placeName: "", placeImage: "", address: "", price: "" });
       }
+    } catch (error) {
+      setError(error.message);
+      setLoading(false);
+    }
   };
-  
+
   const handleEdit = (index) => {
     setFormData(registeredCabs[index]);
     setEditIndex(index);
@@ -168,7 +170,7 @@ export default function PlaceRegister() {
     "Daman and Diu",
     "Delhi",
     "Lakshadweep",
-    "Puducherry"
+    "Puducherry",
   ];
 
   return (
@@ -178,7 +180,6 @@ export default function PlaceRegister() {
           Register your Place
         </h2>
         <form onSubmit={handleSubmit}>
-          
           <div className="mb-4">
             <label
               className="block text-gray-700 text-sm font-semibold mb-2"
@@ -190,7 +191,9 @@ export default function PlaceRegister() {
               id="cabModel"
               name="cabModel"
               value={formData.placeName}
-              onChange={e => setFormData({...formData, placeName: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, placeName: e.target.value })
+              }
               className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
             >
@@ -216,7 +219,9 @@ export default function PlaceRegister() {
                 id="otherCabModel"
                 name="otherCabModel"
                 value={formData.placeName}
-                onChange={e => setFormData({...formData, placeName: e.target.value})}
+                onChange={(e) =>
+                  setFormData({ ...formData, placeName: e.target.value })
+                }
                 className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 required
               />
@@ -237,7 +242,9 @@ export default function PlaceRegister() {
                 name="price"
                 placeholder="Enter price"
                 value={formData.price}
-                onChange={e => setFormData({...formData, price: e.target.value})}
+                onChange={(e) =>
+                  setFormData({ ...formData, price: e.target.value })
+                }
                 className="appearance-none w-full focus:outline-none"
                 required
               />
@@ -255,13 +262,19 @@ export default function PlaceRegister() {
               id="address"
               name="address"
               value={formData.address}
-              onChange={e => setFormData({...formData, address: e.target.value})}
+              onChange={(e) =>
+                setFormData({ ...formData, address: e.target.value })
+              }
               className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
               required
             >
-              <option value="" disabled>Select State</option>
+              <option value="" disabled>
+                Select State
+              </option>
               {states.map((state, index) => (
-                <option key={index} value={state}>{state}</option>
+                <option key={index} value={state}>
+                  {state}
+                </option>
               ))}
             </select>
           </div>
@@ -283,54 +296,80 @@ export default function PlaceRegister() {
               required
             />
             {imageFileUploadingProgress && (
-                <RangeSlider
-                  sizing="sm"
-                  className="w-72 mx-auto"
-                  value={imageFileUploadingProgress || 0}
-                  text={`${imageFileUploadingProgress}%`}
-                  strokeWidth={5}
-                  styles={{
-                    root: {
-                      width: "100%",
-                      height: "100%",
-                      position: "absolute",
-                      top: 0,
-                      left: 0,
-                    },
-                    path: {
-                      stroke: `rgba(62, 152, 199, ${
-                        imageFileUploadingProgress / 100
-                      })`,
-                    },
-                  }}
-                />
-              )}
+              <RangeSlider
+                sizing="sm"
+                className="w-72 mx-auto"
+                value={imageFileUploadingProgress || 0}
+                text={`${imageFileUploadingProgress}%`}
+                strokeWidth={5}
+                styles={{
+                  root: {
+                    width: "100%",
+                    height: "100%",
+                    position: "absolute",
+                    top: 0,
+                    left: 0,
+                  },
+                  path: {
+                    stroke: `rgba(62, 152, 199, ${
+                      imageFileUploadingProgress / 100
+                    })`,
+                  },
+                }}
+              />
+            )}
           </div>
           {imageFileUploadError && (
-          <Alert color="failure">{imageFileUploadError}</Alert>
-        )}
+            <Alert color="failure" className="my-5">
+              {imageFileUploadError}
+            </Alert>
+          )}
+          {error && (
+            <Alert color="failure" className="my-5">
+              {error}
+            </Alert>
+          )}
+          {submit && (
+            <Alert color="success" className="my-5">
+              {submit}
+            </Alert>
+          )}
           <div className="text-center">
             <button
               type="submit"
               className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
             >
-              {editIndex !== null ? "Update Cab" : "Register Cab"}
+              {loading ? (
+                <div className="flex gap-4">
+                  <Spinner />
+                  <p>"Loading"</p>
+                </div>
+              ) : (
+                "Register Cab"
+              )}
             </button>
           </div>
         </form>
       </div>
       <div className="flex flex-wrap justify-center mt-8">
         {registeredCabs.map((cab, index) => (
-          <div key={index} className="max-w-sm rounded overflow-hidden shadow-lg mx-4 mb-4">
+          <div
+            key={index}
+            className="max-w-sm rounded overflow-hidden shadow-lg mx-4 mb-4"
+          >
             <div className="px-6 py-4">
               <div className="font-bold text-xl mb-2">{cab.driverName}</div>
               <p className="text-gray-700 text-base mb-2">{cab.cabModel}</p>
               {cab.otherCabModel && (
-                <p className="text-gray-700 text-base mb-2">{cab.otherCabModel}</p>
+                <p className="text-gray-700 text-base mb-2">
+                  {cab.otherCabModel}
+                </p>
               )}
               <p className="text-gray-700 text-base mb-2">{cab.price}</p>
               {/* Display state */}
-              <p className="text-gray-700 text-base mb-2">State: {cab.address}</p>
+              <p className="text-gray-700 text-base mb-2">
+                State: {cab.address}
+              </p>
               <div className="flex justify-between">
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mr-2"
