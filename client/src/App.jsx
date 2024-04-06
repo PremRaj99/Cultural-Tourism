@@ -27,6 +27,12 @@ import HotelRegister from "./pages/HotelRegister";
 import OnGoingBooking from "./pages/OnGoingBooking";
 import CompletedBooking from "./pages/CompletedBooking";
 import UpCommingBooking from "./pages/UpCommingBooking";
+import CreateNewTripPlans from "./pages/CreateNewTripPlans";
+import Partners from "./pages/Partners";
+import Customers from "./pages/Customers";
+import MonthlyTripAndEarning from "./pages/MonthlyTripAndEarning";
+import OngoingTrip from "./pages/OngoingTrip";
+import UpcomingTrip from "./pages/UpcomingTrip";
 import MonthlyEarning from "./pages/MonthlyEarning";
 
 export default function App() {
@@ -48,6 +54,12 @@ export default function App() {
         </Route>
         <Route element={<OnlyAdminPrivateRoute />}>
           <Route path="/dashboard-admin" element={<AdminDashboard />} />
+          <Route path="/ongoing-trip" element={<OngoingTrip/>}/>
+          <Route path="/upcoming-trip" element={<UpcomingTrip/>}/>
+          <Route path="/create-new-trip-plan" element={<CreateNewTripPlans/>}/>
+          <Route path="/partners" element={<Partners/>}/>
+          <Route path="/monthly-trip-and-earning" element={<MonthlyTripAndEarning/>}/>
+          <Route path="/customers" element={<Customers/>}/>
         </Route>
         <Route element={<OnlyPartnerPrivateRoute />}>
           <Route path="/dashboard-partner" element={<DashboardPartner />} />
