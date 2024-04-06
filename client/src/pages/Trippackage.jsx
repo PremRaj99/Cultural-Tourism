@@ -30,16 +30,27 @@ export default function Trippackage() {
   };
 
   return (
+       
+    
+
     <div className="container w-[1000px] mx-auto px-6 py-8 border border-gray-300 rounded-lg shadow-md">
-      <h2 className="text-3xl font-semibold mb-6 text-center">Trip Name</h2>
       <h3 className="text-xl font-semibold mb-4 text-center">Rishikesh Trip</h3>
-      <p className="mb-4 text-center">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eget congue mauris. Sed nec leo tortor. Vivamus non diam id mi congue laoreet. Nullam et orci ac velit varius vehicula. Integer nec tincidunt justo. </p>
+      <img src="https://encrypted-tbn0.gstatic.com/licensed-image?q=tbn:ANd9GcQMIW3WMsjWrtSIz6XDCDH9e4TqwLKEOkeKLDuwql0uMZiXxmc3ktRFcjCcqZcLhtVi0HLujLJnNVf0ClXGm4QyT5ktAubpyB2Bp5Kj5g" alt=""
+      className='mx-auto my-4' />
+     
+      <p className="mb-4 text-center">Rishikesh has numerous ashrams, some of which are internationally recognised as centres of philosophical studies, yoga and other ancient Indian traditions of wellness. The Uttarakhand Tourism Development Board organises the annual International Yog Festival (IYF) here, which attracts thousands of yoga enthusiasts. </p>
       
       <div className="container w-[800px] mx-auto px-6 py-8 border border-gray-300 rounded-lg shadow-md">
         <p className="mb-2 text-center">Booked Cab: {formData.bookedCab}</p>
         <p className="mb-2 text-center">Booked Hotel: {formData.bookedHotel}</p>
         <div className="mb-4 text-center">
-          <p className="block text-gray-700 font-semibold mb-2">Places to Visit:</p>
+          <p className="block text-gray-700 font-semibold mb-2">Places to Visit: </p>
+          <h4>
+            <li>Lakshman Jhula</li>
+            <li>Ram Jhula</li>
+            <li>Ganga Aarti</li>
+            <li>Haridwar</li>
+          </h4>
           <ul className="list-disc list-inside">
             {formData.placesToVisit.map((place, index) => (
               <li key={index}>{place}</li>
