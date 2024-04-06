@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, RangeSlider, Spinner } from "flowbite-react";
 import { useSelector } from "react-redux";
+import bg from "../assets/placeTripBg.jpg";
 import {
   getDownloadURL,
   getStorage,
@@ -20,6 +21,7 @@ export default function PlaceRegister() {
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [submit, setSubmit] = useState(null);
+  const [other, setOther] = useState("");
 
   const { currentUser } = useSelector((state) => state.user);
 
@@ -175,219 +177,223 @@ export default function PlaceRegister() {
 
   return (
     <div className="flex justify-center items-center mt-8">
-      <div className="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-md">
-        <h2 className="text-2xl text-center font-semibold mb-6">
-          Register your Place
-        </h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-semibold mb-2"
-              htmlFor="cabModel"
-            >
-              Place Name
-            </label>
-            <select
-              id="cabModel"
-              name="cabModel"
-              value={formData.placeName}
-              onChange={(e) =>
-                setFormData({ ...formData, placeName: e.target.value })
-              }
-              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            >
-              <option value="" disabled>
-                Select Place
-              </option>
-              <option value="Mini">Mini</option>
-              <option value="Prime Sedan">Prime Sedan</option>
-              <option value="Prime SUV">Prime SUV</option>
-              <option value="Other">Other</option>
-            </select>
-          </div>
-          {formData.placeName === "Other" && (
-            <div className="mb-4">
-              <label
-                className="block text-gray-700 text-sm font-semibold mb-2"
-                htmlFor="otherCabModel"
-              >
-                Specify Other Place
-              </label>
-              <input
-                type="text"
-                id="otherCabModel"
-                name="otherCabModel"
-                value={formData.placeName}
-                onChange={(e) =>
-                  setFormData({ ...formData, placeName: e.target.value })
-                }
-                className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                required
-              />
-            </div>
-          )}
-          <div className="mb-4 relative">
-            <label
-              className="block text-gray-700 text-sm font-semibold mb-2"
-              htmlFor="price"
-            >
-              Guide Price
-            </label>
-            <div className="flex items-center border rounded py-2 px-3 text-gray-700 focus-within:shadow-outline">
-              <span className="mr-2">₹</span>
-              <input
-                type="number"
-                id="price"
-                name="price"
-                placeholder="Enter price"
-                value={formData.price}
-                onChange={(e) =>
-                  setFormData({ ...formData, price: e.target.value })
-                }
-                className="appearance-none w-full focus:outline-none"
-                required
-              />
-            </div>
-          </div>
-          {/* Address dropdown for states */}
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-semibold mb-2"
-              htmlFor="address"
-            >
-              State
-            </label>
-            <select
-              id="address"
-              name="address"
-              value={formData.address}
-              onChange={(e) =>
-                setFormData({ ...formData, address: e.target.value })
-              }
-              className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            >
-              <option value="" disabled>
-                Select State
-              </option>
-              {states.map((state, index) => (
-                <option key={index} value={state}>
-                  {state}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-semibold mb-2"
-              htmlFor="cabImage"
-            >
-              Upload Cab Image
-            </label>
-            <input
-              type="file"
-              id="cabImage"
-              name="cabImage"
-              onChange={handleImageChange}
-              ref={filePickerRef}
-              accept="image/*"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              required
-            />
-            {imageFileUploadingProgress && (
-              <RangeSlider
-                sizing="sm"
-                className="w-72 mx-auto"
-                value={imageFileUploadingProgress || 0}
-                text={`${imageFileUploadingProgress}%`}
-                strokeWidth={5}
-                styles={{
-                  root: {
-                    width: "100%",
-                    height: "100%",
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                  },
-                  path: {
-                    stroke: `rgba(62, 152, 199, ${
-                      imageFileUploadingProgress / 100
-                    })`,
-                  },
-                }}
-              />
-            )}
-          </div>
-          {imageFileUploadError && (
-            <Alert color="failure" className="my-5">
-              {imageFileUploadError}
-            </Alert>
-          )}
-          {error && (
-            <Alert color="failure" className="my-5">
-              {error}
-            </Alert>
-          )}
-          {submit && (
-            <Alert color="success" className="my-5">
-              {submit}
-            </Alert>
-          )}
-          <div className="text-center">
-            <button
-              type="submit"
-              className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
-            >
-              {loading ? (
-                <div className="flex gap-4">
-                  <Spinner />
-                  <p>"Loading"</p>
+      <>
+        <img src={bg} alt="" className="w-full relative" />
+
+        <div className="flex justify-center items-center mt-8 absolute top-10 left-[20%] translate-x-[50%]">
+          <div className="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-md">
+            <h2 className="text-2xl text-center font-semibold mb-6">
+              Register your Place
+            </h2>
+            <form onSubmit={handleSubmit}>
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-semibold mb-2"
+                  htmlFor="cabModel"
+                >
+                  Place Name
+                </label>
+                <select
+                  id="cabModel"
+                  name="cabModel"
+                  value={formData.placeName}
+                  onChange={(e) =>
+                    setFormData({ ...formData, placeName: e.target.value })
+                  }
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                >
+                  <option value="" disabled>
+                    Select Place
+                  </option>
+                  <option value="Mini">Mini</option>
+                  <option value="Prime Sedan">Prime Sedan</option>
+                  <option value="Prime SUV">Prime SUV</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+              {formData.placeName === "Other" && (
+                <div className="mb-4">
+                  <label
+                    className="block text-gray-700 text-sm font-semibold mb-2"
+                    htmlFor="otherCabModel"
+                  >
+                    Specify Other Place
+                  </label>
+                  <input
+                    type="text"
+                    id="otherCabModel"
+                    name="otherCabModel"
+                    value={other}
+                    onChange={(e) => setOther(e.target.value)}
+                    className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    required
+                  />
                 </div>
-              ) : (
-                "Register Place"
               )}
-            </button>
-          </div>
-        </form>
-      </div>
-      <div className="flex flex-wrap justify-center mt-8">
-        {registeredCabs.map((cab, index) => (
-          <div
-            key={index}
-            className="max-w-sm rounded overflow-hidden shadow-lg mx-4 mb-4"
-          >
-            <div className="px-6 py-4">
-              <div className="font-bold text-xl mb-2">{cab.driverName}</div>
-              <p className="text-gray-700 text-base mb-2">{cab.cabModel}</p>
-              {cab.otherCabModel && (
-                <p className="text-gray-700 text-base mb-2">
-                  {cab.otherCabModel}
-                </p>
+              <div className="mb-4 relative">
+                <label
+                  className="block text-gray-700 text-sm font-semibold mb-2"
+                  htmlFor="price"
+                >
+                  Guide Price
+                </label>
+                <div className="flex items-center border rounded py-2 px-3 text-gray-700 focus-within:shadow-outline">
+                  <span className="mr-2">₹</span>
+                  <input
+                    type="number"
+                    id="price"
+                    name="price"
+                    placeholder="Enter price"
+                    value={formData.price}
+                    onChange={(e) =>
+                      setFormData({ ...formData, price: e.target.value })
+                    }
+                    className="appearance-none w-full focus:outline-none"
+                    required
+                  />
+                </div>
+              </div>
+              {/* Address dropdown for states */}
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-semibold mb-2"
+                  htmlFor="address"
+                >
+                  State
+                </label>
+                <select
+                  id="address"
+                  name="address"
+                  value={formData.address}
+                  onChange={(e) =>
+                    setFormData({ ...formData, address: e.target.value })
+                  }
+                  className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                >
+                  <option value="" disabled>
+                    Select State
+                  </option>
+                  {states.map((state, index) => (
+                    <option key={index} value={state}>
+                      {state}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className="mb-4">
+                <label
+                  className="block text-gray-700 text-sm font-semibold mb-2"
+                  htmlFor="cabImage"
+                >
+                  Upload Cab Image
+                </label>
+                <input
+                  type="file"
+                  id="cabImage"
+                  name="cabImage"
+                  onChange={handleImageChange}
+                  ref={filePickerRef}
+                  accept="image/*"
+                  className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                  required
+                />
+                {imageFileUploadingProgress && (
+                  <RangeSlider
+                    sizing="sm"
+                    className="w-72 mx-auto"
+                    value={imageFileUploadingProgress || 0}
+                    text={`${imageFileUploadingProgress}%`}
+                    strokeWidth={5}
+                    styles={{
+                      root: {
+                        width: "100%",
+                        height: "100%",
+                        position: "absolute",
+                        top: 0,
+                        left: 0,
+                      },
+                      path: {
+                        stroke: `rgba(62, 152, 199, ${
+                          imageFileUploadingProgress / 100
+                        })`,
+                      },
+                    }}
+                  />
+                )}
+              </div>
+              {imageFileUploadError && (
+                <Alert color="failure" className="my-5">
+                  {imageFileUploadError}
+                </Alert>
               )}
-              <p className="text-gray-700 text-base mb-2">{cab.price}</p>
-              {/* Display state */}
-              <p className="text-gray-700 text-base mb-2">
-                State: {cab.address}
-              </p>
-              <div className="flex justify-between">
+              {error && (
+                <Alert color="failure" className="my-5">
+                  {error}
+                </Alert>
+              )}
+              {submit && (
+                <Alert color="success" className="my-5">
+                  {submit}
+                </Alert>
+              )}
+              <div className="text-center">
                 <button
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mr-2"
-                  onClick={() => handleEdit(index)}
+                  type="submit"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md focus:outline-none focus:shadow-outline"
                 >
-                  Edit
-                </button>
-                <button
-                  className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md"
-                  onClick={() => handleDelete(index)}
-                >
-                  Delete
+                  {loading ? (
+                    <div className="flex gap-4">
+                      <Spinner />
+                      <p>"Loading"</p>
+                    </div>
+                  ) : (
+                    "Register Place"
+                  )}
                 </button>
               </div>
-            </div>
+            </form>
           </div>
-        ))}
-      </div>
+          <div className="flex flex-wrap justify-center mt-8">
+            {registeredCabs.map((cab, index) => (
+              <div
+                key={index}
+                className="max-w-sm rounded overflow-hidden shadow-lg mx-4 mb-4"
+              >
+                <div className="px-6 py-4">
+                  <div className="font-bold text-xl mb-2">{cab.driverName}</div>
+                  <p className="text-gray-700 text-base mb-2">{cab.cabModel}</p>
+                  {cab.otherCabModel && (
+                    <p className="text-gray-700 text-base mb-2">
+                      {cab.otherCabModel}
+                    </p>
+                  )}
+                  <p className="text-gray-700 text-base mb-2">{cab.price}</p>
+                  {/* Display state */}
+                  <p className="text-gray-700 text-base mb-2">
+                    State: {cab.address}
+                  </p>
+                  <div className="flex justify-between">
+                    <button
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md mr-2"
+                      onClick={() => handleEdit(index)}
+                    >
+                      Edit
+                    </button>
+                    <button
+                      className="bg-red-500 hover:bg-red-700 text-white font-semibold py-2 px-4 rounded-md"
+                      onClick={() => handleDelete(index)}
+                    >
+                      Delete
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </>
     </div>
   );
 }
