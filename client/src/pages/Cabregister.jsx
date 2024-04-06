@@ -103,15 +103,22 @@ export default function CabRegister() {
   ];
 
   return (
-    <div className="flex justify-center items-center mt-8">
-      <div className="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-md">
-        <h2 className="text-2xl text-center font-semibold mb-6">
+<>
+<img src="https://images.unsplash.com/photo-1485739139909-d0d1783a7196?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" 
+alt="" 
+className="w-full relative
+"/>
+
+
+    <div className="flex justify-center items-center mt-9  py-5 absolute top-3 left-[10%] translate-x-[75%]">
+      <div className="max-w-md w-full px-6 py-2 bg-white shadow-md rounded-md">
+        <h2 className="text-2xl text-center font-semibold mb-4">
           Register your CAB
         </h2>
-        <form onSubmit={handleSubmit}>
-          <div className="mb-4">
+        <form onSubmit={handleSubmit} className="mt- -4px" >
+          <div className="mb-4 ">
             <label
-              className="block text-gray-700 text-sm font-semibold mb-2"
+              className="block text-gray-700 text-sm font-semibold mb-1"
               htmlFor="driverName"
             >
               Driver Name
@@ -126,7 +133,7 @@ export default function CabRegister() {
               required
             />
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <label
               className="block text-gray-700 text-sm font-semibold mb-2"
               htmlFor="cabModel"
@@ -151,7 +158,7 @@ export default function CabRegister() {
             </select>
           </div>
           {formData.cabModel === "Other" && (
-            <div className="mb-4">
+            <div className="mb-2">
               <label
                 className="block text-gray-700 text-sm font-semibold mb-2"
                 htmlFor="otherCabModel"
@@ -169,7 +176,7 @@ export default function CabRegister() {
               />
             </div>
           )}
-          <div className="mb-4 relative">
+          <div className="mb-2 relative">
             <label
               className="block text-gray-700 text-sm font-semibold mb-2"
               htmlFor="price"
@@ -191,7 +198,7 @@ export default function CabRegister() {
             </div>
           </div>
           {/* Address dropdown for states */}
-          <div className="mb-4">
+          <div className="mb-2">
             <label
               className="block text-gray-700 text-sm font-semibold mb-2"
               htmlFor="address"
@@ -270,5 +277,6 @@ export default function CabRegister() {
         ))}
       </div>
     </div>
+    </>
   );
 }
