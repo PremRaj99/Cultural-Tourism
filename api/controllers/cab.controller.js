@@ -13,7 +13,7 @@ export const addCab = async (req, res, next) => {
       return next(errorHandler(404, "User not found"));
     }
 
-    if (!user.isPartner || user.Partner === "Cab Owner") {
+    if (!user.isPartner || user.Partner !== "Cab Owner") {
       return next(errorHandler(403, "You are not a cab owner."));
     }
 

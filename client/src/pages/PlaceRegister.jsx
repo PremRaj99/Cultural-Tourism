@@ -345,7 +345,7 @@ export default function PlaceRegister() {
                   <p>"Loading"</p>
                 </div>
               ) : (
-                "Register Cab"
+                "Register Place"
               )}
             </button>
           </div>
