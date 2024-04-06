@@ -27,6 +27,7 @@ import HotelRegister from "./pages/HotelRegister";
 import OnGoingBooking from "./pages/OnGoingBooking";
 import CompletedBooking from "./pages/CompletedBooking";
 import UpCommingBooking from "./pages/UpCommingBooking";
+import MonthlyEarning from "./pages/MonthlyEarning";
 
 export default function App() {
   return (
@@ -53,6 +54,7 @@ export default function App() {
           <Route path="/cab-register" element={<Cabregister />} />
           <Route path="/hotel-register" element={<HotelRegister />} />
           <Route path="/place-register" element={<PlaceRegister />} />
+          <Route path="/monthly-earning" element={<MonthlyEarning />} />
         </Route>
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/search" element={<Search />} />
