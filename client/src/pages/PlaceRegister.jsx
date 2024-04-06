@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Alert, RangeSlider } from "flowbite-react";
 import { useSelector} from "react-redux"
+import bg from "../assets/placeTripBg.jpg"
 import {
   getDownloadURL,
   getStorage,
@@ -17,6 +18,7 @@ export default function PlaceRegister() {
     placeImage: "",
     address: "" // Add address field to formData
   });
+  const[other,setOther] = useState("");
   const [error, setError] = useState(null);
 
   const { currentUser } = useSelector((state) => state.user);
@@ -172,7 +174,15 @@ export default function PlaceRegister() {
   ];
 
   return (
-    <div className="flex justify-center items-center mt-8">
+    <>
+
+    <img src={bg}
+     alt=""  
+     className="w-full relative"/>
+
+    
+   
+    <div className="flex justify-center items-center mt-8 absolute top-10 left-[20%] translate-x-[50%]" >
       <div className="max-w-md w-full px-6 py-8 bg-white shadow-md rounded-md">
         <h2 className="text-2xl text-center font-semibold mb-6">
           Register your Place
@@ -215,8 +225,8 @@ export default function PlaceRegister() {
                 type="text"
                 id="otherCabModel"
                 name="otherCabModel"
-                value={formData.placeName}
-                onChange={e => setFormData({...formData, placeName: e.target.value})}
+                value={other}
+                onChange={(e) =>setOther(e.target.value)}
                 className="appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                 required
               />
@@ -350,5 +360,6 @@ export default function PlaceRegister() {
         ))}
       </div>
     </div>
+    </>
   );
 }
