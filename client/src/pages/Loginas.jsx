@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Alert, Button, Card, Checkbox, Label, Spinner, TextInput } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import bg from "../assets/loginBg.jpg"
 import {
   signInStart,
   signInSuccess,
@@ -45,8 +46,15 @@ export default function Loginas() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-gray-100 py-8">
-      <div className="w-full max-w-lg p-4 mb-8 border border-gray-200 rounded-lg shadow-md">
+
+    <>
+
+    <img src={bg}
+     alt=""  
+     className="w-full relative"/>
+
+    <div className="flex flex-col items-center justify-center h-full bg-transparent py-8 absolute top-8 left-[0%] translate-x-[75%] ">
+      <div className="w-full max-w-lg p-4 mb-8 border border-gray-200 rounded-lg shadow-md bg-transparent ">
         <div className="flex justify-between">
           <Button
             type="button"
@@ -72,14 +80,14 @@ export default function Loginas() {
           </Button>
         </div>
       </div>
-      <Card className="w-[500px] bg-white shadow-md rounded-lg p-8">
-        <form className="flex flex-col gap-4">
-          <h2 className="text-3xl font-semibold mb-4 text-gray-800">Login</h2>
+      <Card className="w-[500px] bg-transparent shadow-md rounded-lg p-6">
+        <form className="flex flex-col gap-3">
+          <h2 className="text-3xl font-semibold mb-4 text-white">Login</h2>
           <div>
             <Label
               htmlFor="text"
               value={`Login as ${loginType}`}
-              className="text-lg font-semibold text-gray-800"
+              className="text-lg font-semibold text-white"
             />
           </div>
           <div>
@@ -118,7 +126,7 @@ export default function Loginas() {
             <Checkbox id="remember" className="rounded" />
             <Label
               htmlFor="remember"
-              className="text-sm font-semibold text-gray-800"
+              className="text-sm font-semibold text-white"
             >
               Remember me
             </Label>
@@ -145,5 +153,6 @@ export default function Loginas() {
         </form>
       </Card>
     </div>
+    </>
   );
 }
