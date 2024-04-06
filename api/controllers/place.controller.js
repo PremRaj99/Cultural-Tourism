@@ -13,9 +13,9 @@ export const addPlace = async (req, res, next) => {
     if (!user) {
       return next(errorHandler(404, "User not found"));
     }
-    if (!user.isPartner || !user.isAdmin || user.Partner === "Guide") {
-      return next(errorHandler(403, "You are not a guide."));
-    }
+    // if (!user.isPartner || !user.isAdmin || user.Partner !== "Guide") {
+    //   return next(errorHandler(403, "You are not a guide."));
+    // }
     const place = await Place.findOneAndUpdate(
       { placeName: placeName },
       {
@@ -37,7 +37,7 @@ export const addPlace = async (req, res, next) => {
       await newPlace.save();
       res.status(201).json(newPlace);
     }
-    place = await place.save();
+    await place.save();
     res.status(201).json(place);
   } catch (error) {
     next(error);
