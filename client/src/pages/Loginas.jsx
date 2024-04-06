@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { Alert, Button, Card, Checkbox, Label, Spinner, TextInput } from "flowbite-react";
+import {
+  Alert,
+  Button,
+  Card,
+  Checkbox,
+  Label,
+  Spinner,
+  TextInput,
+} from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -45,105 +53,113 @@ export default function Loginas() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center h-full bg-gray-100 py-8">
-      <div className="w-full max-w-lg p-4 mb-8 border border-gray-200 rounded-lg shadow-md">
-        <div className="flex justify-between">
-          <Button
-            type="button"
-            onClick={() => setLoginType("USER")}
-            className={
-              loginType === "USER"
-                ? "bg-blue-500 text-white px-4 py-2 rounded"
-                : "text-gray-700 px-4 py-2 rounded hover:bg-gray-200"
-            }
-          >
-            Login as USER
-          </Button>
-          <Button
-            type="button"
-            onClick={() => setLoginType("PARTNER")}
-            className={
-              loginType === "PARTNER"
-                ? "bg-blue-500 text-white px-4 py-2 rounded"
-                : "text-gray-700 px-4 py-2 rounded hover:bg-gray-200"
-            }
-          >
-            Login as PARTNER
-          </Button>
-        </div>
-      </div>
-      <Card className="w-[500px] bg-white shadow-md rounded-lg p-8">
-        <form className="flex flex-col gap-4">
-          <h2 className="text-3xl font-semibold mb-4 text-gray-800">Login</h2>
-          <div>
-            <Label
-              htmlFor="text"
-              value={`Login as ${loginType}`}
-              className="text-lg font-semibold text-gray-800"
-            />
-          </div>
-          <div>
-            <Label
-              htmlFor="userName"
-              className="text-sm font-semibold text-gray-800"
-            />
-            <TextInput
-              id="userName"
-              type="text"
-              value={username}
-              placeholder="Enter your userName"
-              required
-              onChange={(e) => {
-                setUsername(e.target.value);
-              }}
-            />
-          </div>
-          <div>
-            <Label
-              htmlFor="password1"
-              className="text-sm font-semibold text-gray-800"
-            />
-            <TextInput
-              id="password1"
-              type="password"
-              value={password}
-              placeholder="Enter Password"
-              required
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-            />
-          </div>
-          <div className="flex items-center gap-2">
-            <Checkbox id="remember" className="rounded" />
-            <Label
-              htmlFor="remember"
-              className="text-sm font-semibold text-gray-800"
+    <>
+      <img
+        src="https://images.unsplash.com/photo-1576094169187-1b006b6a8d57?q=80&w=1974&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+        alt=""
+        className="w-full relative"
+      />
+
+      <div className="flex flex-col items-center justify-center h-full bg-transparent py-8 absolute top-8 left-[0%] translate-x-[90%] ">
+        <div className="w-full max-w-lg p-4 mb-8 border border-gray-200 rounded-lg shadow-md bg-transparent ">
+          <div className="flex justify-between">
+            <Button
+              type="button"
+              onClick={() => setLoginType("USER")}
+              className={
+                loginType === "USER"
+                  ? "bg-blue-500 text-white px-4 py-2 rounded"
+                  : "text-gray-700 px-4 py-2 rounded hover:bg-gray-200"
+              }
             >
-              Remember me
-            </Label>
+              Login as USER
+            </Button>
+            <Button
+              type="button"
+              onClick={() => setLoginType("PARTNER")}
+              className={
+                loginType === "PARTNER"
+                  ? "bg-blue-500 text-white px-4 py-2 rounded"
+                  : "text-gray-700 px-4 py-2 rounded hover:bg-gray-200"
+              }
+            >
+              Login as PARTNER
+            </Button>
           </div>
-          <Button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 rounded transition duration-300"
-            onClick={handleSubmit}
-          >
-            {loading ? (
-              <>
-                <Spinner size="sm" />
-                <span className="pl-3">Loading...</span>
-              </>
-            ) : (
-              "Login"
+        </div>
+        <Card className="w-[500px] bg-transparent shadow-md rounded-lg p-8">
+          <form className="flex flex-col gap-4">
+            <h2 className="text-3xl font-semibold mb-4 text-white">Login</h2>
+            <div>
+              <Label
+                htmlFor="text"
+                value={`Login as ${loginType}`}
+                className="text-lg font-semibold text-white"
+              />
+            </div>
+            <div>
+              <Label
+                htmlFor="userName"
+                className="text-sm font-semibold text-white"
+              />
+              <TextInput
+                id="userName"
+                type="text"
+                value={username}
+                placeholder="Enter your userName"
+                required
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                }}
+              />
+            </div>
+            <div>
+              <Label
+                htmlFor="password1"
+                className="text-sm font-semibold text-gray-800"
+              />
+              <TextInput
+                id="password1"
+                type="password"
+                value={password}
+                placeholder="Enter Password"
+                required
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                }}
+              />
+            </div>
+            <div className="flex items-center gap-2">
+              <Checkbox id="remember" className="rounded" />
+              <Label
+                htmlFor="remember"
+                className="text-sm font-semibold text-white"
+              >
+                Remember me
+              </Label>
+            </div>
+            <Button
+              type="submit"
+              className="bg-blue-500 hover:bg-blue-700 text-white font-semibold py-2 rounded transition duration-300"
+              onClick={handleSubmit}
+            >
+              {loading ? (
+                <>
+                  <Spinner size="sm" />
+                  <span className="pl-3">Loading...</span>
+                </>
+              ) : (
+                "Login"
+              )}
+            </Button>
+            {errorMessage && (
+              <Alert className="mt-5" color="failure">
+                {errorMessage}
+              </Alert>
             )}
-          </Button>
-          {errorMessage && (
-            <Alert className="mt-5" color="failure">
-              {errorMessage}
-            </Alert>
-          )}
-        </form>
-      </Card>
-    </div>
+          </form>
+        </Card>
+      </div>
+    </>
   );
 }
